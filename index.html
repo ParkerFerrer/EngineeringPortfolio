@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parker Ferrer — Mechanical &amp; Electrical Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:        #f7f6f2;
+    --surface:   #ffffff;
+    --ink:       #15161a;
+    --ink-soft:  #2b2c30;
+    --text:      #1c1d20;
+    --text-dim:  #5a5c62;
+    --text-faint:#9a9a9c;
+    --line:      #e1ddd2;
+    --accent:    #c8863c;
+    --accent-soft:rgba(200,134,60,0.12);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.65;
+    background-image:
+      repeating-linear-gradient(to right, rgba(21,22,26,0.028) 0px, rgba(21,22,26,0.028) 1px, transparent 1px, transparent 64px),
+      repeating-linear-gradient(to bottom, rgba(21,22,26,0.028) 0px, rgba(21,22,26,0.028) 1px, transparent 1px, transparent 64px);
+  }
+
+  h1,h2,h3,h4{ font-family:'Space Grotesk', sans-serif; font-weight:600; letter-spacing:-0.01em; color:var(--ink); }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 32px; }
+  a{ color:inherit; }
+  img{ display:block; width:100%; height:100%; object-fit:cover; }
+
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; transition:none; }
+    html{ scroll-behavior:auto; }
+  }
+
+  .datum{ position:relative; }
+  .datum::before, .datum::after{
+    content:""; position:absolute; width:14px; height:14px;
+    border:1px solid var(--text-faint); pointer-events:none;
+  }
+  .datum::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
+  .datum::after{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; height:100vh; min-height:600px; overflow:hidden;
+    display:grid; grid-template-columns:repeat(8,1fr); grid-auto-rows:1fr;
+  }
+  .hero-cell{ position:relative; overflow:hidden; background:var(--ink); }
+  .hero-cell img{ filter:grayscale(55%) sepia(12%) brightness(0.72) contrast(1.02); }
+  .hero-overlay{
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(21,22,26,0.35) 0%, rgba(21,22,26,0.25) 45%, rgba(21,22,26,0.72) 100%);
+  }
+  .hero-center{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; }
+  .hero-oval{
+    position:absolute; width:560px; max-width:82vw; height:230px;
+    background:rgba(10,10,12,0.42); filter:blur(46px); border-radius:50%;
+  }
+  .hero-name{ position:relative; color:#ffffff; font-size:clamp(2.6rem,7vw,5.2rem); font-weight:700; text-align:center; letter-spacing:-0.02em; }
+  .hero-role{ position:relative; margin-top:14px; color:rgba(255,255,255,0.88); font-size:0.92rem; letter-spacing:0.14em; text-transform:uppercase; }
+  .hero-scroll{
+    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+    color:rgba(255,255,255,0.7); font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+  }
+  .hero-scroll span{ width:1px; height:26px; background:rgba(255,255,255,0.5); display:block; }
+
+  .eyebrow{ color:var(--accent); font-size:0.78rem; letter-spacing:0.16em; text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:10px; }
+  .eyebrow::before{ content:""; width:22px; height:1px; background:var(--accent); display:block; }
+
+  /* ---------- ABOUT ---------- */
+  .about{ padding:120px 0 90px; border-bottom:1px solid var(--line); }
+  .about-grid{ display:grid; grid-template-columns:1fr 84px; gap:36px; align-items:start; }
+  .about p{ color:var(--text-dim); font-size:1.04rem; max-width:720px; margin-bottom:18px; }
+  .about p:last-of-type{ margin-bottom:0; }
+  .resume-btn{
+    display:inline-flex; align-items:center; gap:10px; margin-top:30px;
+    padding:14px 26px; border:1px solid var(--ink); color:var(--ink);
+    text-decoration:none; font-family:'IBM Plex Mono', monospace; font-size:0.85rem;
+    letter-spacing:0.08em; text-transform:uppercase; transition:background 0.25s ease, color 0.25s ease;
+    width:fit-content;
+  }
+  .resume-btn:hover{ background:var(--ink); color:#fff; }
+
+  .social-col{ display:flex; flex-direction:column; align-items:center; gap:22px; padding-top:6px; }
+  .social-col a{
+    width:48px; height:48px; border:1px solid var(--line); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; color:var(--ink);
+    text-decoration:none; transition:border-color 0.25s ease, background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+    opacity:0; transform:translateY(-14px);
+  }
+  .social-col a svg{ width:20px; height:20px; }
+  .social-col a:hover{ background:var(--ink); border-color:var(--ink); color:#fff; transform:translateY(2px); }
+  .social-col a.in{ opacity:1; transform:translateY(0); }
+  .social-col a:nth-child(1){ transition-delay:0.05s; }
+  .social-col a:nth-child(2){ transition-delay:0.2s; }
+  .social-col a:nth-child(3){ transition-delay:0.35s; }
+  .social-col a{ transition:opacity 0.6s ease, transform 0.6s ease, border-color 0.25s ease, background 0.25s ease, color 0.25s ease; }
+
+  /* ---------- HIGHLIGHTS ---------- */
+  .highlights{ padding:40px 0 40px; }
+  .highlight{ padding:90px 0; border-bottom:1px solid var(--line); }
+  .highlight:last-child{ border-bottom:none; }
+  .highlight-head{ display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:18px; margin-bottom:30px; }
+  .highlight-index{ color:var(--text-faint); font-size:0.8rem; letter-spacing:0.1em; }
+  .highlight-date{ color:var(--accent); font-size:0.8rem; letter-spacing:0.06em; border:1px solid var(--line); padding:6px 12px; }
+  .highlight-gallery{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:36px; }
+  .highlight-gallery .g-img{ aspect-ratio:4/3; background:var(--surface); overflow:hidden; border:1px solid var(--line); }
+  .highlight-title{ font-size:clamp(1.5rem,3vw,2.15rem); margin-bottom:4px; }
+  .highlight-role{ color:var(--text-dim); font-size:0.95rem; margin-bottom:22px; font-style:italic; }
+  .highlight-desc p{ color:var(--text-dim); max-width:760px; margin-bottom:16px; }
+  .highlight-desc p:last-child{ margin-bottom:0; }
+  .paper-link{
+    display:inline-flex; align-items:center; gap:8px; margin-top:20px; color:var(--accent);
+    font-family:'IBM Plex Mono', monospace; font-size:0.85rem; text-decoration:none; border-bottom:1px solid var(--accent);
+    padding-bottom:2px;
+  }
+
+  /* ---------- OTHER PROJECTS (2-col vertical) ---------- */
+  .other{ padding:110px 0 90px; border-top:1px solid var(--line); }
+  .other-head{ margin-bottom:44px; }
+  .other-grid{ display:grid; grid-template-columns:1fr 1fr; gap:26px 26px; }
+  .pcard{ border:1px solid var(--line); background:var(--surface); display:flex; flex-direction:column; }
+  .pcard-img{ width:100%; aspect-ratio:16/10; background:#efece4; overflow:hidden; }
+  .pcard-body{ padding:20px 22px 24px; }
+  .pcard-title{ font-family:'Space Grotesk', sans-serif; font-size:1.05rem; margin-bottom:8px; line-height:1.3; }
+  .pcard-date{ color:var(--accent); font-size:0.74rem; letter-spacing:0.06em; margin-bottom:12px; display:block; }
+  .pcard-desc{ color:var(--text-dim); font-size:0.9rem; }
+
+  @media (max-width:820px){
+    .other-grid{ grid-template-columns:1fr; }
+    .about-grid{ grid-template-columns:1fr; }
+    .social-col{ flex-direction:row; padding-top:0; margin-top:8px; }
+    .highlight-gallery{ grid-template-columns:1fr 1fr; }
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{ background:var(--ink); padding:60px 0 40px; }
+  .footer-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+  .footer-name{ font-family:'Space Grotesk', sans-serif; font-weight:600; color:#fff; }
+  .footer-meta{ color:rgba(255,255,255,0.5); font-size:0.8rem; }
+
+  @media (max-width:760px){
+    .hero{ grid-template-columns:repeat(4,1fr); }
+    .about{ padding:90px 0 60px; }
+    .highlight{ padding:60px 0; }
+    .highlight-gallery{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============ HERO (literal photo collage) ============ -->
+  <header class="hero">
+    <div class="hero-cell"><img src="images/pedalswap-1.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/travel-1.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/ieee-robot-1.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/caterpillar.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/travel-2.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/robotic-guitar-1.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/ecse-design.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/travel-3.jpg" alt=""></div>
+
+    <div class="hero-cell"><img src="images/buzzbots-frc.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/asee-model.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/travel-4.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/team-bean-frc.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/ermco.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/travel-5.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/football-launcher.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/ieee-2025.jpg" alt=""></div>
+
+    <div class="hero-cell"><img src="images/travel-6.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/greens-harvester.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/12lb-battlebot.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/travel-7.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/mary-poppins.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/otto-crescendo.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/travel-8.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/automation-direct.jpg" alt=""></div>
+
+    <div class="hero-cell"><img src="images/otto-charged-up.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/travel-9.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/motorcycle-clock.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/otto-rapid-react.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/travel-10.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/urban-infrastructure.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/ice-cream-scoop.jpg" alt=""></div>
+    <div class="hero-cell"><img src="images/otto-infinite-recharge.jpg" alt=""></div>
+
+    <div class="hero-overlay"></div>
+    <div class="hero-center">
+      <div class="hero-oval"></div>
+      <h1 class="hero-name">Parker Ferrer</h1>
+      <p class="hero-role">Mechanical and Electrical Engineering</p>
+    </div>
+    <div class="hero-scroll"><span></span>scroll</div>
+  </header>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="about">
+    <div class="wrap about-grid">
+      <div>
+        <div class="eyebrow">About</div>
+        <p>Hi, I'm Parker Ferrer! I'm a current undergraduate student at the University of Georgia's Morehead Honors College (UGA), pursuing a double Bachelor's degrees in Mechanical Engineering and in Electrical &amp; Electronics Engineering with an expected graduation date of December 2027. My experience in engineering comes from a foundation in competitive robotics, where I fell in love with CAD (at first Solidworks, but now mostly working in Onshape) and grew my passion for electromechanical design, rapid prototype development, and integration of complex, moving systems. The double major in school provided a fun challenge and deeper perspective, growing the breadth of my mental design toolkit and greatly improving my ability to understand and communicate cross-functionally.</p>
+        <p>In the professional space, I have worked at a few internships and a couple other part time roles. I was an intern at Automation Direct designing machines to show off a new PLC product launch, at ERMCO improving quality/consistency of their electrical transformer production through implementation of a vision automation system on the factory line, at UGA as a researcher and a fabrication lab manager, and at Caterpillar improving the reliability, safety, and usability of their autonomous truck test equipment. All of these roles come together to give me a well rounded view of the full life cycle of a product, from development to production to testing as changes are made to support the product decades after launch, and I will continue working in product design and hardware engineering moving forward.</p>
+        <p>I spend most of my free time working on or mentoring robotics teams, but stay busy outside engineering too. I have been ballroom dancing for the past year at UGA, and will be on stage in my first performance in the spring. I'm also lucky to have gotten the chance to travel the world (been to Oxford and Iceland, and going to Malta in the Spring), am big on taking hikes or walks through local trails, and an avid YouTube and Dropout viewer with all the time I have left.</p>
+        <a class="resume-btn" href="resume.pdf" target="_blank" rel="noopener">View Résumé &nbsp;→</a>
+      </div>
+      <div class="social-col reveal" id="socialCol">
+        <a href="https://www.linkedin.com/in/parker-ferrer/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="7.5" y1="10" x2="7.5" y2="17"/><circle cx="7.5" cy="6.8" r="1"/><path d="M11.5 17v-4.2c0-1.4 1-2.3 2.2-2.3s2.1.9 2.1 2.3V17"/></svg>
+        </a>
+        <a href="mailto:ferrerpg5342@gmail.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg>
+        </a>
+        <a href="https://www.instagram.com/parker.ferrer/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HIGHLIGHTED PROJECTS ============ -->
+  <section class="highlights">
+    <div class="wrap">
+
+      <article class="highlight reveal">
+        <div class="highlight-head">
+          <span class="highlight-index mono">Featured — 01 / 03</span>
+          <span class="highlight-date mono">Nov 2025 — Present</span>
+        </div>
+        <div class="highlight-gallery">
+          <div class="g-img datum"><img src="images/pedalswap-1.jpg" alt="PedalSwap prototype"></div>
+          <div class="g-img"><img src="images/pedalswap-2.jpg" alt="PedalSwap iteration"></div>
+          <div class="g-img"><img src="images/pedalswap-3.jpg" alt="PedalSwap final product"></div>
+        </div>
+        <h3 class="highlight-title">PedalSwap</h3>
+        <p class="highlight-role">Founder &amp; Lead Product Design Engineer</p>
+        <div class="highlight-desc">
+          <p>PedalSwap is a startup modular guitar effects platform, geared towards giving beginner guitarists the freedom to experiment with their own tone and style at a low price point while enabling more advanced users with features to create a vast range of high-quality, intentional sounds. As the sole mechanical designer, I lead the physical development of PedalSwap as my team of 2 other founders and I have taken the product from an idea to a production-ready, user-friendly, attractive product.</p>
+          <p>I was first brought on to design the prototype mechanical architecture and integrate all the electrical subsystems: effectively, figure out how to make an enclosure and swappable control knobs around a pile of breadboard circuits usable and enjoyable. This rigorous early phase required extremely fast prototyping where my partners and I would talk through a couple iterations and ideas, and I would have them designed, 3D printed, and tested within the following couple hours over and over again for a week straight. The design only required functionality, so many of these ideas had us experimenting with broad concepts of how the user might interact with the product or what we could do to set ourselves apart from other products on the market. By the end of that week, with over a dozen iterations to the design and product made, our work culminated in a highly successful proof-of-concept that secured 2nd place at Georgia Tech's Idea to Prototype competition.</p>
+          <p>After the success of our competition and seeing the excitement of musicians and non-musicians alike at our showcase for the design, we decided to keep it going and compete in the Georgia Tech Inventure Prize. The priorities during this transition were turning this prototype into a real product, which meant prioritizing ergonomics, user experience, and attractiveness. I refined the 3D-printed magnetic connection system, allowing users to intuitively swap analog effect circuits in addition to the control knobs without managing complex wiring, and iterated this mechanism to allow for extremely natural use. This iteration transformed a raw functional prototype into an attractive, user-friendly consumer device, ultimately winning 2nd place, $10,000, and patent funding.</p>
+          <p>Now, the focus is on optimizing the platform for manufacturability at scale and reliability when exposed to real use conditions, while still maintaining the functionality and attractiveness developed in previous iterations. I am actively refining the system integration to ensure the final product cannot be damaged even under diverse use cases, can be sold at an affordable price point, and incredibly easy to assemble for us as a business. This process involves continuous failure analysis and part fabrication optimizations to balance a resilient mechanical design with an accessible, usable look and feel. Additionally, I am in the process of making engineering drawings for the patent filing for this device to make a claim on our invention.</p>
+        </div>
+      </article>
+
+      <article class="highlight reveal">
+        <div class="highlight-head">
+          <span class="highlight-index mono">Featured — 02 / 03</span>
+          <span class="highlight-date mono">Aug 2025 — Mar 2026</span>
+        </div>
+        <div class="highlight-gallery">
+          <div class="g-img datum"><img src="images/ieee-robot-1.jpg" alt="IEEE Hardware Competition robot"></div>
+          <div class="g-img"><img src="images/ieee-robot-2.jpg" alt="IEEE robot subsystem"></div>
+          <div class="g-img"><img src="images/ieee-robot-3.jpg" alt="IEEE robot team"></div>
+        </div>
+        <h3 class="highlight-title">IEEE Hardware Competition Robot</h3>
+        <p class="highlight-role">Team Lead &amp; Mechanical Lead</p>
+        <div class="highlight-desc">
+          <p>Serving as the Team Lead and Mechanical Lead for a 15-member interdisciplinary team, I directed the overarching mechanical iteration of an autonomous competition robot as well as managing the project as a whole. I was responsible for designing the robotic structure and internal mechanisms, specifically speccing electrical design elements and power transmissions while also heading the CAD and mechanical design of the chassis and major interactive subsystems. Recognizing that software development was our most significant bottleneck, I optimized the electromechanical assemblies to simplify software production. I repeatedly went through rounds of increasing the complexity of mechanical and electrical design for the benefit of reducing the complexity of the control systems. This iteration, while bridging the gap in communication between the mechanical, electrical, and programming subteams, helped to overcome the lack of experience we had on our software team.</p>
+          <p>Additionally, I recognized from my previous year on the team (and from stories of the years before), that the greatest problem plaguing this project was simple communication breakdown as individuals became busy with schoolwork through their semester and the project deliverables started falling through the cracks. To overcome this, I implemented clear and strict project management protocols for our team. I facilitated close cross-functional collaboration, ensuring everyone consistently updated the team, met tight deadlines, and maintained alignment from the initial CAD models through to the final hands-on assembly of the system-level robot prototype. At the conclusion of the competition, UGA placed 8th out of ~45 teams, a huge improvement from about 30th the year before and tied for last the year before that.</p>
+        </div>
+      </article>
+
+      <article class="highlight reveal">
+        <div class="highlight-head">
+          <span class="highlight-index mono">Featured — 03 / 03</span>
+          <span class="highlight-date mono">Oct 2024 — Jun 2025</span>
+        </div>
+        <div class="highlight-gallery">
+          <div class="g-img datum"><img src="images/robotic-guitar-1.jpg" alt="Robotic guitar"></div>
+          <div class="g-img"><img src="images/robotic-guitar-2.jpg" alt="Robotic guitar mechanism"></div>
+          <div class="g-img"><img src="images/robotic-guitar-3.jpg" alt="Robotic guitar testing"></div>
+        </div>
+        <h3 class="highlight-title">Robotic Guitar</h3>
+        <div class="highlight-desc">
+          <p>Working within the UGA Cultivate Lab, a partner and I engineered a self-playing robotic guitar designed for adaptive instrumentation. Faced with a highly compressed timeline due to my partner transferring schools, I had to execute extreme rapid prototyping. Over the span of just a few days, I drove the project through three major design iterations and nearly a dozen smaller subsystem tests to ensure reliable strumming of the strings. The system heavily relied on precise electromechanical integration due to the nonuniform surfaces of a guitar and difficult to predict behavior of the strings. We repeatedly, directly assembled and tested the servo motor mechanisms to achieve consistent, autonomous strumming. This hands-on work involved continuous failure analysis and immediate physical refinement of the design assumptions to guarantee reliability under a repeated variety of testing conditions. This intense period of hardware development culminated in a fully functional, custom sub-assembly that met all project parameters despite the severe time constraints. The project not only proved the viability of the robotic mechanism but also served as the foundation for an autoethnographic research paper on project-based learning in electrical engineering, which I co-authored and presented at the ASEE 2025 Annual Conference.</p>
+          <a class="paper-link" href="https://peer.asee.org/bridging-the-gap-autoethnographic-insights-into-project-based-learning-in-electrical-engineering" target="_blank" rel="noopener">Read the paper &nbsp;→</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ OTHER PROJECTS (2-column vertical) ============ -->
+  <section class="other">
+    <div class="wrap">
+      <div class="other-head">
+        <div class="eyebrow">Other Projects</div>
+        <h2 style="font-size:1.6rem;">Additional Work</h2>
+      </div>
+
+      <div class="other-grid">
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/caterpillar.jpg" alt="Caterpillar Internship"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">Caterpillar Internship — Autonomy &amp; Automation Systems Integration Intern</h4>
+            <span class="pcard-date mono">May 2026 — Aug 2026</span>
+            <p class="pcard-desc">Executed full CAD development, 3D printing, and rapid iteration cycles to engineer custom mechanical brackets and power distribution assemblies, enhancing system-level reliability and serviceability across autonomous RAM trucks and robotic platforms.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/ecse-design.jpg" alt="Custom Electrical Test Bench"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">Custom Electrical Test Bench from Discrete Components (ECSE Design Methodology)</h4>
+            <span class="pcard-date mono">Jan 2026 — May 2026</span>
+            <p class="pcard-desc">Designed the hardware architecture for a physical electronics testbed, rapidly iterating through subsystem prototypes for a stabilized offset power supply rails, DC voltage generator, square &amp; sine wave generator, ohmmeter, and voltmeter which would seamlessly integrate an onboard Raspberry Pi controller.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/buzzbots-frc.jpg" alt="Buzz Bots 10482 FRC Mentor"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">Buzz Bots 10482 FRC Mentor</h4>
+            <span class="pcard-date mono">Jan 2026 — Present</span>
+            <p class="pcard-desc">Mentored a novice FRC team through strategic design lessons, rapid prototyping, and CAD development cycles to teach them hands-on electromechanical design skills that led to a State competition qualification.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/asee-model.jpg" alt="ASEE Model Design Competition"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">ASEE Model Design Competition</h4>
+            <span class="pcard-date mono">Aug 2025 — Jul 2026</span>
+            <p class="pcard-desc">Mentored a 10-student team of inexperienced freshman and sophomore UGA engineers, teaching foundational electromechanical system design and guiding them through the full iteration and assembly of a functional autonomous robot.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/team-bean-frc.jpg" alt="Team Bean 1833 FRC Mentor"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">Team Bean 1833 FRC Mentor</h4>
+            <span class="pcard-date mono">Aug 2025 — Present</span>
+            <p class="pcard-desc">Performed remote design reviews for my alumnus, veteran FRC team, guiding their advanced CAD development and complex system iteration strategies.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/ermco.jpg" alt="ERMCO Power Partners"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">ERMCO Power Partners — Continuous Improvement Intern</h4>
+            <span class="pcard-date mono">May 2025 — Aug 2025</span>
+            <p class="pcard-desc">Advanced quality-control automation via project management of computer vision implementation and rapidly iterating passive alignment guides for transformer inspection.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/football-launcher.jpg" alt="Mechanical Foam Football Launcher"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">Mechanical Foam Football Launcher (Mechanical Engineering Design Studio)</h4>
+            <span class="pcard-date mono">Jan 2025 — May 2025</span>
+            <p class="pcard-desc">Designed and fabricated a foam football launcher utilizing a hand-cranked, high-upduction bicycle wheel mechanism for high speed power transmission. Hugely inspired by 2481's 2020 FRC Robot.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/ieee-2025.jpg" alt="IEEE Hardware Competition 2025"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">IEEE Hardware Competition 2025</h4>
+            <span class="pcard-date mono">Oct 2024 — Mar 2025</span>
+            <p class="pcard-desc">Rapidly advanced from mechanical team member to mechanical team lead, taking responsibility for the structural CAD design, mechanism fabrication, and hands-on assembly of a competition robot as the team needed increasing levels of support and structure.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/greens-harvester.jpg" alt="Greens Harvester Design Proposal"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">Greens Harvester Design Proposal (Introduction to Electrical Engineering)</h4>
+            <span class="pcard-date mono">Aug 2024 — Dec 2024</span>
+            <p class="pcard-desc">Performed an in-depth analysis of a local student farm's problems with harvesting. Iterated through engineering design matrices to prototype an ergonomic, labor-reducing greens harvester mechanism, optimizing hardware efficiency for local agricultural stakeholders and addressing the root cause of issues.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/12lb-battlebot.jpg" alt="12lb Battlebot"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">12lb Battlebot</h4>
+            <span class="pcard-date mono">Jul 2024 — 2025</span>
+            <p class="pcard-desc">Engineered the drivetrain and modular internal chassis for a 12-lb combat robot, utilizing repeated prototyping and testing to ensure the assembly could withstand high-impact loads.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/mary-poppins.jpg" alt="Mary Poppins Props"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">Mary Poppins Props</h4>
+            <span class="pcard-date mono">Apr 2024</span>
+            <p class="pcard-desc">Engineered a custom collapsing table and shelving unit with internal mechanisms designed to magically reassemble on stage during a live theatrical production of the Mary Poppins musical at my local high school.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/otto-crescendo.jpg" alt="Team OTTO 1746 FRC Crescendo"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">Team OTTO 1746 FRC: Crescendo</h4>
+            <span class="pcard-date mono">Aug 2023 — May 2024</span>
+            <p class="pcard-desc">Co-led a 45-student organization and directed the 20-member mechanical team through overarching CAD development, hands-on fabrication, and full system integration.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/automation-direct.jpg" alt="Automation Direct"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">Automation Direct</h4>
+            <span class="pcard-date mono">Jun 2023 — Aug 2024</span>
+            <p class="pcard-desc">Spearheaded the mechanical and custom electrical development of a novel large-format 3D printer, designing the end to end mechanical and electrical system including multi-voltage power distribution and complex control systems.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/otto-charged-up.jpg" alt="Team OTTO 1746 FRC Charged Up"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">Team OTTO 1746 FRC: Charged Up</h4>
+            <span class="pcard-date mono">Aug 2022 — May 2023</span>
+            <p class="pcard-desc">Led the intake subteam of 6 people through the development of three major electro-mechanical iterations, concluding in a highly reliable design that placed within the top 30 at the world competition.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/motorcycle-clock.jpg" alt="Motorcycle Clock Pencil Holder"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">Motorcycle Clock Pencil Holder</h4>
+            <span class="pcard-date mono">Oct 2022</span>
+            <p class="pcard-desc">Designed and manufactured a wooden desk organizer featuring friction-fit inserts, a functional clock, and a 3D-printed wheel and sidecar.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/otto-rapid-react.jpg" alt="Team OTTO 1746 FRC Rapid React"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">Team OTTO 1746 FRC: Rapid React</h4>
+            <span class="pcard-date mono">Aug 2021 — May 2022</span>
+            <p class="pcard-desc">Prototyped and iterated through 3 intake mechanisms, successfully transitioning the robot from a single-pivot sprung intake to a fully actuated 4-bar CAD design. Over the course of these design changes, the system went from barely functional to exceptionally reliable.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/urban-infrastructure.jpg" alt="Urban Infrastructure Redevelopment Project"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">Urban Infrastructure Redevelopment Project</h4>
+            <span class="pcard-date mono">Aug 2021 — Jul 2022</span>
+            <p class="pcard-desc">Designed and assembled a polycarbonate water wheel model as a proposed urban infrastructure redevelopment project with a custom gearbox to collect trash and generate power, placing 1st in state and 8th nationally.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/ice-cream-scoop.jpg" alt="Metal Self-Heating Ice Cream Scoop"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">Metal Self-Heating Ice Cream Scoop</h4>
+            <span class="pcard-date mono">Aug 2021 — Mar 2022</span>
+            <p class="pcard-desc">Created a custom foundry and 3D-printed cast to manufacture a metal ice cream scoop with internal heating wire, hand-manufacturing the entire system's design to place 3rd at the state level.</p>
+          </div>
+        </div>
+
+        <div class="pcard reveal">
+          <div class="pcard-img"><img src="images/otto-infinite-recharge.jpg" alt="Team OTTO 1746 FRC Infinite Recharge at Home"></div>
+          <div class="pcard-body">
+            <h4 class="pcard-title">Team OTTO 1746 FRC: Infinite Recharge at Home</h4>
+            <span class="pcard-date mono">Aug 2020 — May 2021</span>
+            <p class="pcard-desc">This was the project that introduced me to CAD. Designed and fabricated protective robot bumpers using sheet metal and wood, and prototyped a brushed indexer tower for a ball hopper system. I've put nearly 3000 hours into CAD since this project 🙂!</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="wrap footer-row">
+      <span class="footer-name">Parker Ferrer</span>
+      <span class="footer-meta mono">University of Georgia — Mechanical &amp; Electrical Engineering</span>
+    </div>
+  </footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.12 });
+    revealEls.forEach(el=>io.observe(el));
+  } else {
+    revealEls.forEach(el=>el.classList.add('in'));
+  }
+
+  // Social icons descend in sequence once the About section is in view
+  const socialCol = document.getElementById('socialCol');
+  if (socialCol){
+    const icons = socialCol.querySelectorAll('a');
+    const io2 = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          icons.forEach(icon=>icon.classList.add('in'));
+          io2.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.2 });
+    io2.observe(socialCol);
+  }
+</script>
+
+</body>
+</html>
